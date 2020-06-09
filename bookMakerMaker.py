@@ -8,6 +8,8 @@ import json
 import copy
 import shutil
 import getpass
+import numbers
+
 os.chdir(sys.path[0])
 BookStem="TeleHealth_"
 instructor_netid="mdtmp"
@@ -36,12 +38,12 @@ print sorted(bookIndices)
 
 
 for idx in bookIndices:
-    template=copy.deepcopy(t.template)
+    #template=copy.deepcopy(t.template)
     localStorageKey=BookStem+str(idx)
     currentBook=filter(lambda x: x["Book"]==str(idx),data)
     print currentBook
 
-    template["chapters"][0]["title"]=localStorageKey.replace("_"," ")
+    #template["chapters"][0]["title"]=localStorageKey.replace("_"," ")
 
     pages = {}
     for i,v in enumerate(currentBook):
@@ -53,9 +55,14 @@ for idx in bookIndices:
         if ":" in str(totalsecs):
             min,secs=totalsecs.split(":")[:2]
             totalsecs=int(min)*60+int(secs)
+
+        # Type check totalsecs to make sure it's a time
+        if not isinstance(totalsecs, numbers.Number):
+            raise ValueError('totalsecs should be a number. Is there a semicolon somewhere?')
+
         item = {'type':"video", 'title':v["Title"], 'content':v["Link"], 'duration':totalsecs}
         pages[lectureNumber].append(item)
-    template["localStorageKey"]=localStorageKey
+    #template["localStorageKey"]=localStorageKey
 
 
     for i in sorted (pages):
