@@ -38,12 +38,12 @@ print sorted(bookIndices)
 
 
 for idx in bookIndices:
-    #template=copy.deepcopy(t.template)
+    template=copy.deepcopy(t.template)
     localStorageKey=BookStem+str(idx)
     currentBook=filter(lambda x: x["Book"]==str(idx),data)
     print currentBook
 
-    #template["chapters"][0]["title"]=localStorageKey.replace("_"," ")
+    template["chapters"][0]["title"]=localStorageKey.replace("_"," ")
 
     pages = {}
     for i,v in enumerate(currentBook):
@@ -62,7 +62,7 @@ for idx in bookIndices:
 
         item = {'type':"video", 'title':v["Title"], 'content':v["Link"], 'duration':totalsecs}
         pages[lectureNumber].append(item)
-    #template["localStorageKey"]=localStorageKey
+    template["localStorageKey"]=localStorageKey
 
 
     for i in sorted (pages):
